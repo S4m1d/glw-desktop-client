@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using glw_desktop_client.ViewModel;
 
 namespace glw_desktop_client
 {
@@ -23,6 +24,57 @@ namespace glw_desktop_client
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = new SignInFormViewModel();
+        }
+        
+        //custom data binding
+        protected void OnPasswordChanged(object sender, RoutedEventArgs args)
+        {
+            ((dynamic)this.DataContext).Password = ((PasswordBox)sender).SecurePassword;
+        }
+        //custom data binding
+        protected void OnConfirmPasswordChanged(object sender, RoutedEventArgs args)
+        {
+            ((dynamic)this.DataContext).Password = ((PasswordBox)sender).SecurePassword;
+        }
+
+        protected void On_Switch_Mode_Button_Click(object sender, RoutedEventArgs args)
+        {
+            if(DataContext is SignInFormViewModel)
+            {
+                SwitchContextToSignUp();
+            }
+            else
+            {
+                SwitchContextToSignIn();
+            }
+        }
+
+        private void SwitchContextToSignIn()
+        {
+            DataContext = new SignInFormViewModel();
+        }
+        
+        private void SwitchContextToSignUp()
+        {
+            DataContext = new SignUpFormViewModel();
+            
+            RowDefinition confirmPasswordRow = new RowDefinition();
+            AuthFrame.RowDefinitions.Add(confirmPasswordRow);
+            confirmPasswordRow.Height = new GridLength(4, GridUnitType.Star);
+
+            //dragging down buttons
+            UIElement uiElement = AuthFrame.Children[2];
+            Grid.SetRow(uiElement, 3);
+
+            PasswordBox confirmPasswordBox = new PasswordBox();
+            confirmPasswordBox.Name = "ConfirmPasswordBox";
+            confirmPasswordBox.Style = (Style)TryFindResource("AuthFormTextBlock");
+            confirmPasswordBox.PasswordChanged += OnConfirmPasswordChanged;
+            
+            AuthFrame.Children.Add(confirmPasswordBox);
+            Grid.SetRow(confirmPasswordBox, 2);
+            Grid.SetColumn(confirmPasswordBox, 0);
         }
     }
 }

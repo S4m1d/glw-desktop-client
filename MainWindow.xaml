@@ -6,7 +6,56 @@
         xmlns:local="clr-namespace:glw_desktop_client"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-
+    <Window.Resources>
+        <LinearGradientBrush x:Key="GradientBrush" StartPoint="0.5,1" EndPoint="1,0">
+            <GradientStop Color="#B005FF" Offset="0"></GradientStop>
+            <GradientStop Color="#BD0DEC" Offset="0.3"></GradientStop>
+            <GradientStop Color="#CA15D9" Offset="0.5"></GradientStop>
+            <GradientStop Color="#D81DC6" Offset="0.6"></GradientStop>
+            <GradientStop Color="#E524B2" Offset="0.7"></GradientStop>
+            <GradientStop Color="#F22C9F" Offset="0.9"></GradientStop>
+            <GradientStop Color="#FF348C" Offset="1"></GradientStop>
+        </LinearGradientBrush>
+        <Style x:Key="AuthButtonStyle">
+            <Setter Property="Control.VerticalAlignment" Value="Center"></Setter>
+            <Setter Property="Control.Width" Value="80"></Setter>
+            <Setter Property="Control.Background" Value="#45F0DF"></Setter>
+        </Style>
+        <Style x:Key="AuthFormTextBlock">
+            <Setter Property="Control.VerticalAlignment" Value="Center"></Setter>
+            <Setter Property="Control.HorizontalAlignment" Value="Stretch"></Setter>
+            <Setter Property="Control.Background" Value="#45F0DF"></Setter>
+        </Style>
+    </Window.Resources>
+    <Grid Background="{StaticResource GradientBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="16*"></RowDefinition>
+            <RowDefinition Height="13*"></RowDefinition>
+            <RowDefinition Height="16*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*"></ColumnDefinition>
+            <ColumnDefinition Width="2*"></ColumnDefinition>
+            <ColumnDefinition Width="3*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Row="1" Grid.Column="1" x:Name="AuthFrame">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="4*"></RowDefinition>
+                <RowDefinition Height="4*"></RowDefinition>
+                <RowDefinition Height="5*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <TextBox Grid.Row = "0" x:Name="Login" Style="{StaticResource AuthFormTextBlock}" Text="{Binding UserName, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            <PasswordBox Grid.Row = "1" x:Name="Password" Style="{StaticResource AuthFormTextBlock}" PasswordChanged="OnPasswordChanged"></PasswordBox>
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="3*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" x:Name="SignInButton" HorizontalAlignment="Left" Style="{StaticResource AuthButtonStyle}" Command="{Binding SignInCommand}">SIGN IN</Button>
+                <Label Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">OR</Label>
+                <Button Grid.Column="2" x:Name="SignUpButton" HorizontalAlignment="Right" Style="{StaticResource AuthButtonStyle}" Click="On_Switch_Mode_Button_Click">SIGN UP</Button>
+            </Grid>
+        </Grid>
     </Grid>
 </Window>
